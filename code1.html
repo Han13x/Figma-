@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FurniCo. - Studio Furnitur Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Base Variables & Reset */
+        :root {
+            --primary: #2C3E35; 
+            --secondary: #D4A373; 
+            --dark: #1A1A1A;
+            --light: #FAFAFA;
+            --gray: #7F8C8D;
+            --card-bg: #FFFFFF;
+            --font-sans: 'Poppins', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+            --transition: cubic-bezier(0.25, 1, 0.5, 1) 0.4s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: white;
+            border-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: var(--gray);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 50px auto;
+        }
+
+        /* Fixed Navigation Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 25px 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo span { color: var(--secondary); }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        .nav-item a {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--dark);
+            position: relative;
+        }
+
+        .nav-item a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary);
+            transition: var(--transition);
+        }
+
+        /* Perbaikan: Menampilkan garis bawah statis hanya jika class active dipicu */
+        .nav-item a:hover::after, .nav-item.active a::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 1.2rem;
+            color: var(--dark);
+        }
+
+        /* Search Container */
+        .search-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .search-input {
+            width: 0;
+            opacity: 0;
+            padding: 6px 0;
+            border: none;
+            border-bottom: 2px solid var(--primary);
+            background: transparent;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            outline: none;
+            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+        }
+
+        .search-container.active .search-input {
+            width: 180px;
+            opacity: 1;
+            padding: 6px 10px;
+            margin-right: 10px;
+        }
+
+        .nav-icon-btn {
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .nav-icon-btn:hover {
+            color: var(--secondary);
+            transform: scale(1.1);
+        }
+
+        .badge-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background-color: var(--secondary);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            transform: scale(0);
+        }
+
+        .badge-count.pop { transform: scale(1); }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%), url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 650px;
+            padding-top: 80px;
+        }
+
+        .hero-tag {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--secondary);
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .hero h1 {
+            font-family: var(--font-serif);
+            font-size: 4.2rem;
+            line-height: 1.15;
+            color: #FFFFFF;
+            margin-bottom: 25px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: #FFFFFF !important;
+            margin-bottom: 35px;
+            font-weight: 400;
+            line-height: 1.8;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Features Card Flip 3D */
+        .features {
+            padding: 90px 0;
+            background-color: #F4F6F4;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-box {
+            background-color: transparent;
+            height: 250px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .feature-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border-radius: 8px;
+        }
+
+        .feature-box:hover .feature-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .feature-front, .feature-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            padding: 35px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .feature-front {
+            background-color: var(--card-bg);
+            color: var(--dark);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-front h3 {
+            font-family: var(--font-sans);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .feature-front p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .feature-back {
+            background-color: var(--primary);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .feature-back h3 {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            margin-bottom: 12px;
+        }
+
+        .feature-back p {
+            font-size: 0.88rem;
+            color: #E2E8F0;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .feature-link-btn {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            border-bottom: 1px solid var(--secondary);
+            padding-bottom: 2px;
+            transition: var(--transition);
+        }
+
+        .feature-link-btn:hover { color: var(--secondary); }
+
+        .feature-box:hover .fa-truck-fast { animation: truckDrive 0.5s ease infinite alternate; }
+        .feature-box:hover .fa-couch { transform: scale(1.2); }
+        .feature-box:hover .fa-headset { animation: headsetShake 0.3s infinite; }
+
+        @keyframes truckDrive {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(8px); }
+        }
+        @keyframes headsetShake {
+            0% { transform: rotate(0); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0); }
+        }
+
+        /* Products Section Showcase */
+        .products { padding: 100px 0; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 30px; }
+        
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .product-card.hidden { display: none !important; }
+        .product-card:hover { box-shadow: 0 15px 35px rgba(0,0,0,0.08); transform: translateY(-5px); }
+        .product-img-wrapper { position: relative; overflow: hidden; background-color: #EFEFEF; height: 320px; }
+        .product-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .product-card:hover .product-img-wrapper img { transform: scale(1.08); }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--secondary);
+            color: white;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 4px;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .product-actions {
+            position: absolute;
+            bottom: -60px;
+            left: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .product-card:hover .product-actions { bottom: 0; }
+
+        .action-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .action-btn:hover { background-color: var(--secondary); transform: scale(1.15); }
+        .action-btn.liked { background-color: #E74C3C !important; }
+
+        .product-info { padding: 20px; text-align: center; }
+        .product-category { font-size: 0.8rem; text-transform: uppercase; color: var(--gray); letter-spacing: 1px; }
+        .product-title { font-size: 1.15rem; color: var(--primary); margin: 5px 0; font-weight: 600; }
+        .product-price { font-size: 1.1rem; color: var(--dark); font-weight: 700; }
+
+        /* Showcase Banner Section */
+        .about-showcase {
+            padding: 100px 0;
+            background-color: #FAF6F0;
+        }
+
+        .about-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .about-img, .about-text { flex: 1; }
+        .about-img img { width: 100%; border-radius: 12px; box-shadow: 20px 20px 0px 0px var(--primary); transition: var(--transition); }
+        .about-img:hover img { transform: translate(-10px, -10px); box-shadow: 30px 30px 0px 0px var(--secondary); }
+        .about-text h2 { font-family: var(--font-serif); font-size: 2.8rem; color: var(--primary); margin-bottom: 20px; }
+        .about-text p { color: #4A5568; margin-bottom: 30px; }
+
+        /* Side Drawers Panels */
+        .side-drawer {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background-color: white;
+            z-index: 200;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+        }
+
+        .side-drawer.open { right: 0; }
+        .drawer-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EEE; padding-bottom: 20px; margin-bottom: 20px; }
+        .drawer-header h2 { font-family: var(--font-serif); color: var(--primary); }
+        .close-drawer { font-size: 1.5rem; cursor: pointer; transition: var(--transition); }
+        .close-drawer:hover { color: #E74C3C; transform: rotate(90deg); }
+        .drawer-items-list { flex: 1; overflow-y: auto; list-style: none; }
+        .empty-msg { text-align: center; color: var(--gray); margin-top: 50px; }
+
+        .panel-item { display: flex; gap: 15px; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #FAFAFA; animation: fadeIn 0.3s ease; }
+        .panel-item img { width: 70px; height: 70px; object-fit: cover; border-radius: 6px; }
+        .panel-item-details h4 { font-size: 0.95rem; color: var(--primary); }
+        .panel-item-details span { font-weight: 600; color: var(--dark); font-size: 0.9rem; }
+        .remove-item-btn { margin-left: auto; color: #E74C3C; cursor: pointer; transition: var(--transition); }
+        .remove-item-btn:hover { transform: scale(1.2); }
+
+        .drawer-footer { border-top: 1px solid #EEE; padding-top: 20px; }
+        .cart-total { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; margin-bottom: 20px; }
+
+        .overlay-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.4);
+            z-index: 150;
+            backdrop-filter: blur(4px);
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 80px 0 30px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-about .logo { color: white; margin-bottom: 20px; }
+        .footer-about p { color: #A3B18A; font-size: 0.95rem; margin-bottom: 25px; max-width: 320px; }
+        .social-links { display: flex; gap: 15px; }
+        .social-links a {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        .social-links a:hover { background-color: var(--secondary); color: var(--primary); transform: translateY(-3px); }
+        .footer-links h3 { font-size: 1.2rem; margin-bottom: 25px; position: relative; padding-bottom: 10px; }
+        .footer-links h3::after { content: ''; position: absolute; left: 0; bottom: 0; width: 30px; height: 2px; background-color: var(--secondary); }
+        .footer-links ul { list-style: none; }
+        .footer-links ul li { margin-bottom: 12px; }
+        .footer-links ul li a { color: #A3B18A; font-size: 0.9rem; }
+        .footer-links ul li a:hover { color: white; padding-left: 5px; }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #A3B18A;
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 3rem; }
+            .about-wrapper { flex-direction: column; gap: 40px; }
+            .about-img img { width: 100%; box-shadow: none; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+            .hero h1 { font-size: 2.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay-bg" id="overlayBg"></div>
+
+    <header id="mainHeader">
+        <div class="container nav-wrapper">
+            <a href="#" class="logo">Furni<span>Co.</span></a>
+            <ul class="nav-menu">
+                <li class="nav-item active"><a href="#">Beranda</a></li>
+                <li class="nav-item"><a href="#products">Produk</a></li>
+                <li class="nav-item"><a href="#about">Tentang Kami</a></li>
+                <li class="nav-item"><a href="#contact">Kontak</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="search-container" id="searchContainer">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Cari produk...">
+                    <div class="nav-icon-btn" id="searchToggleBtn"><i class="fa-solid fa-magnifying-glass"></i></div>
+                </div>
+                
+                <div class="nav-icon-btn" id="openWishlistBtn"><i class="fa-solid fa-heart"></i><span class="badge-count" id="wishlistBadge">0</span></div>
+                <div class="nav-icon-btn" id="openCartBtn"><i class="fa-solid fa-bag-shopping"></i><span class="badge-count" id="cartBadge">0</span></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="side-drawer" id="wishlistDrawer">
+        <div class="drawer-header">
+            <h2>Produk Disukai</h2>
+            <div class="close-drawer" id="closeWishlistBtn"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+        <ul class="drawer-items-list" id="wishlistItemsContainer">
+            <p class="empty-msg">Belum ada produk yang disukai.</p>
+        </ul>
+    </div>
+
+    <div class="side-drawer" id="cartDrawer">
+        <div class="drawer-header">
+            <h2>Keranjang Anda</h2>
+            <div class="close-drawer" id="closeCartBtn"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+        <ul class="drawer-items-list" id="cartItemsContainer">
+            <p class="empty-msg">Keranjang belanja Anda kosong.</p>
+        </ul>
+        <div class="drawer-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotalValue">Rp 0</span>
+            </div>
+            <button class="btn btn-primary" style="width: 100%;" onclick="alert('Melanjutkan ke Pembayaran Resmi!')">Bayar Sekarang</button>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-tag">Koleksi Baru 2026</span>
+                <h1>Buat Interior Anda Lebih Minimalis</h1>
+                <p>Dapatkan pengalaman menata ruang terbaik melalui pilihan furnitur premium kami yang mengombinasikan estetika arsitektural modern dengan kenyamanan maksimal.</p>
+                <div class="hero-btns">
+                    <a href="#products" class="btn btn-primary">Belanja Sekarang</a>
+                    <a href="#about" class="btn btn-outline">Pelajari Lebih Lanjut</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                
+                <div class="feature-box" onclick="triggerFeatureAction('shipping')">
+                    <div class="feature-card-inner">
+                        <div class="feature-front">
+                            <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                            <h3>Free Shipping</h3>
+                            <p>Layanan pengiriman tanpa biaya tambahan ke seluruh wilayah perkotaan.</p>
+                        </div>
+                        <div class="feature-back">
+                            <h3>Syarat Pengiriman</h3>
+                            <p>Gratis ongkir berlaku otomatis untuk seluruh wilayah JABODETABEK & kota besar tanpa minimum pembelian.</p>
+                            <span class="feature-link-btn">Cek Area Layanan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-box" onclick="triggerFeatureAction('quality')">
+                    <div class="feature-card-inner">
+                        <div class="feature-front">
+                            <div class="feature-icon"><i class="fa-solid fa-couch"></i></div>
+                            <h3>Premium Quality</h3>
+                            <p>Material kayu pilihan dan kain fabric premium standar internasional.</p>
+                        </div>
+                        <div class="feature-back">
+                            <h3>Material Kelas Atas</h3>
+                            <p>Kami menggunakan Kayu Jati Perhutani Grade A serta busa anti kempes bergaransi resmi 5 tahun.</p>
+                            <span class="feature-link-btn">Lihat Sertifikasi</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="feature-box" onclick="triggerFeatureAction('support')">
+                    <div class="feature-card-inner">
+                        <div class="feature-front">
+                            <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
+                            <h3>24/7 Support</h3>
+                            <p>Tim support profesional yang siap membantu kebutuhan konsultasi tata ruang Anda.</p>
+                        </div>
+                        <div class="feature-back">
+                            <h3>Konsultasi Gratis</h3>
+                            <p>Hubungi desainer interior internal kami kapan saja via WhatsApp untuk konsultasi tata letak ruangan.</p>
+                            <span class="feature-link-btn">Hubungi Desainer</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">Produk Terbaik Kami</h2>
+            <p class="section-subtitle">Beberapa koleksi unggulan yang paling diminati oleh desainer interior terkemuka musim ini.</p>
+            
+            <div class="product-grid" id="productGridContainer">
+                <div class="product-card" data-id="1" data-title="Nordic Lounge Chair" data-price="3840000" data-img="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=600&q=80">
+                    <div class="product-img-wrapper">
+                        <span class="product-badge">Baru</span>
+                        <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=600&q=80" alt="Nordic Lounge Chair">
+                        <div class="product-actions">
+                            <button class="action-btn add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                            <button class="action-btn add-to-wishlist-btn"><i class="fa-solid fa-heart"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Kursi</span>
+                        <h3 class="product-title">Nordic Lounge Chair</h3>
+                        <div class="product-price">Rp 3.840.000</div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="2" data-title="Minimalist Wooden Stool" data-price="2880000" data-img="https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&w=600&q=80">
+                    <div class="product-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&w=600&q=80" alt="Minimalist Wooden Stool">
+                        <div class="product-actions">
+                            <button class="action-btn add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                            <button class="action-btn add-to-wishlist-btn"><i class="fa-solid fa-heart"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Bangku</span>
+                        <h3 class="product-title">Minimalist Wooden Stool</h3>
+                        <div class="product-price">Rp 2.880.000</div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-id="3" data-title="Modern Fabric Sofa" data-price="12000000" data-img="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=600&q=80">
+                    <div class="product-img-wrapper">
+                        <span class="product-badge">Diskon</span>
+                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=600&q=80" alt="Modern Fabric Sofa">
+                        <div class="product-actions">
+                            <button class="action-btn add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+                            <button class="action-btn add-to-wishlist-btn"><i class="fa-solid fa-heart"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">Sofa</span>
+                        <h3 class="product-title">Modern Fabric Sofa</h3>
+                        <div class="product-price">Rp 12.000.000</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-showcase" id="about">
+        <div class="container">
+            <div class="about-wrapper">
+                <div class="about-img">
+                    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=80" alt="Interior Design">
+                </div>
+                <div class="about-text">
+                    <h2>Kami Menciptakan Ruang Indah Untuk Keluarga Anda</h2>
+                    <p>Setiap product dirancang secara detail untuk mengutamakan fungsi fungsionalitas tanpa mengabaikan aspek keindahan visual. Kami percaya bahwa rumah adalah cerminan dari ketenangan jiwa penghuninya.</p>
+                    <a href="#products" class="btn btn-primary">Jelajahi Lebih Banyak</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="#" class="logo">Furni<span>Co.</span></a>
+                    <p>Penyedia solusi furnitur dan interior rumah modern kualitas ekspor terbaik di Indonesia.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://twitter.com" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Layanan</h3>
+                    <ul>
+                        <li><a href="#about">Kustom Furnitur</a></li>
+                        <li><a href="#about">Desain Interior</a></li>
+                        <li><a href="#about">Konsultasi Ruangan</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Bantuan</h3>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Kebijakan Pengiriman</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Perusahaan</h3>
+                    <ul>
+                        <li><a href="#about">Tentang Kami</a></li>
+                        <li><a href="#contact">Hubungi Kami</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FurniCo. Hak Cipta Dilindungi.</p>
+                <p>Designed by Farhan</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const header = document.getElementById('mainHeader');
+        const overlayBg = document.getElementById('overlayBg');
+        
+        // Drawers Elements
+        const openCartBtn = document.getElementById('openCartBtn');
+        const closeCartBtn = document.getElementById('closeCartBtn');
+        const cartDrawer = document.getElementById('cartDrawer');
+        
+        const openWishlistBtn = document.getElementById('openWishlistBtn');
+        const closeWishlistBtn = document.getElementById('closeWishlistBtn');
+        const wishlistDrawer = document.getElementById('wishlistDrawer');
+
+        const cartBadge = document.getElementById('cartBadge');
+        const wishlistBadge = document.getElementById('wishlistBadge');
+        const cartItemsContainer = document.getElementById('cartItemsContainer');
+        const wishlistItemsContainer = document.getElementById('wishlistItemsContainer');
+        const cartTotalValue = document.getElementById('cartTotalValue');
+
+        // Search Elements
+        const searchContainer = document.getElementById('searchContainer');
+        const searchToggleBtn = document.getElementById('searchToggleBtn');
+        const searchInput = document.getElementById('searchInput');
+        const productCards = document.querySelectorAll('.product-card');
+
+        let cart = [];
+        let wishlist = [];
+
+        function formatRupiah(number) {
+            return 'Rp ' + number.toLocaleString('id-ID');
+        }
+
+        // Action when interactive card is clicked
+        function triggerFeatureAction(type) {
+            if(type === 'shipping') {
+                alert('🚚 Pengiriman Gratis: Layanan pengantaran terjadwal Anda saat ini 100% Bebas Biaya!');
+            } else if(type === 'quality') {
+                alert('🛋️ Kualitas Premium: Menggunakan Busa Kelas Tinggi & Rangka Solid Kayu Mahoni Mahakarya.');
+            } else if(type === 'support') {
+                alert('📞 Dukungan 24/7: Menghubungkan ke Tim WhatsApp Desainer Interior Interior kami...');
+            }
+        }
+
+        // Search Logic
+        searchToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            searchContainer.classList.toggle('active');
+            if (searchContainer.classList.contains('active')) {
+                searchInput.focus();
+            }
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            const keyword = e.target.value.toLowerCase().trim();
+            productCards.forEach(card => {
+                const title = card.dataset.title.toLowerCase();
+                if (title.includes(keyword)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!searchContainer.contains(e.target)) {
+                if(searchInput.value === "") {
+                    searchContainer.classList.remove('active');
+                }
+            }
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Perbaikan: Sistem perpindahan garis bawah (active state) dinamis saat menu diklik
+        const navItems = document.querySelectorAll('.nav-menu .nav-item');
+        navItems.forEach(item => {
+            const link = item.querySelector('a');
+            link.addEventListener('click', () => {
+                // Hapus class 'active' dari semua menu
+                navItems.forEach(i => i.classList.remove('active'));
+                // Tambahkan class 'active' ke menu yang baru saja diklik
+                item.classList.add('active');
+            });
+        });
+
+        // Drawers Controls
+        function openPanel(panel) {
+            panel.classList.add('open');
+            overlayBg.style.display = 'block';
+        }
+        function closeAllPanels() {
+            cartDrawer.classList.remove('open');
+            wishlistDrawer.classList.remove('open');
+            overlayBg.style.display = 'none';
+        }
+
+        openCartBtn.addEventListener('click', () => openPanel(cartDrawer));
+        closeCartBtn.addEventListener('click', closeAllPanels);
+        openWishlistBtn.addEventListener('click', () => openPanel(wishlistDrawer));
+        closeWishlistBtn.addEventListener('click', closeAllPanels);
+        overlayBg.addEventListener('click', closeAllPanels);
+
+        // Wishlist Logic
+        document.querySelectorAll('.add-to-wishlist-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const btn = e.currentTarget;
+                const card = btn.closest('.product-card');
+                const id = card.dataset.id;
+                const title = card.dataset.title;
+                const img = card.dataset.img;
+                const price = parseInt(card.dataset.price);
+
+                const existingIndex = wishlist.findIndex(item => item.id === id);
+
+                if (existingIndex > -1) {
+                    wishlist.splice(existingIndex, 1);
+                    btn.classList.remove('liked');
+                } else {
+                    wishlist.push({ id, title, img, price });
+                    btn.classList.add('liked');
+                    
+                    wishlistBadge.classList.add('pop');
+                    setTimeout(() => wishlistBadge.classList.remove('pop'), 300);
+                }
+
+                updateWishlistUI();
+            });
+        });
+
+        function updateWishlistUI() {
+            wishlistItemsContainer.innerHTML = '';
+            if (wishlist.length === 0) {
+                wishlistItemsContainer.innerHTML = '<p class="empty-msg">Belum ada produk yang disukai.</p>';
+                wishlistBadge.textContent = '0';
+                wishlistBadge.style.transform = 'scale(0)';
+                return;
+            }
+
+            wishlist.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'panel-item';
+                li.innerHTML = `
+                    <img src="${item.img}" alt="${item.title}">
+                    <div class="panel-item-details">
+                        <h4>${item.title}</h4>
+                        <span>${formatRupiah(item.price)}</span>
+                    </div>
+                    <i class="fa-solid fa-trash remove-item-btn" onclick="removeFromWishlist('${item.id}')"></i>
+                `;
+                wishlistItemsContainer.appendChild(li);
+            });
+
+            wishlistBadge.textContent = wishlist.length;
+            wishlistBadge.style.transform = 'scale(1)';
+        }
+
+        window.removeFromWishlist = function(id) {
+            wishlist = wishlist.filter(item => item.id !== id);
+            const targetCard = document.querySelector(`.product-card[data-id="${id}"]`);
+            if (targetCard) {
+                const heartBtn = targetCard.querySelector('.add-to-wishlist-btn');
+                if (heartBtn) heartBtn.classList.remove('liked');
+            }
+            updateWishlistUI();
+        };
+
+        // Cart Logic
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const card = e.currentTarget.closest('.product-card');
+                const id = card.dataset.id;
+                const title = card.dataset.title;
+                const price = parseInt(card.dataset.price);
+                const img = card.dataset.img;
+
+                const existingItem = cart.find(item => item.id === id);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({ id, title, price, img, quantity: 1 });
+                }
+
+                updateCartUI();
+                cartBadge.classList.add('pop');
+                setTimeout(() => cartBadge.classList.remove('pop'), 300);
+            });
+        });
+
+        function updateCartUI() {
+            cartItemsContainer.innerHTML = '';
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="empty-msg">Keranjang belanja Anda kosong.</p>';
+                cartBadge.textContent = '0';
+                cartBadge.style.transform = 'scale(0)';
+                cartTotalValue.textContent = 'Rp 0';
+                return;
+            }
+
+            let totalItems = 0;
+            let totalPrice = 0;
+
+            cart.forEach(item => {
+                totalItems += item.quantity;
+                totalPrice += item.price * item.quantity;
+
+                const li = document.createElement('li');
+                li.className = 'panel-item';
+                li.innerHTML = `
+                    <img src="${item.img}" alt="${item.title}">
+                    <div class="panel-item-details">
+                        <h4>${item.title}</h4>
+                        <span>${item.quantity}x - ${formatRupiah(item.price * item.quantity)}</span>
+                    </div>
+                    <i class="fa-solid fa-trash remove-item-btn" onclick="removeFromCart('${item.id}')"></i>
+                `;
+                cartItemsContainer.appendChild(li);
+            });
+
+            cartBadge.textContent = totalItems;
+            cartBadge.style.transform = 'scale(1)';
+            cartTotalValue.textContent = formatRupiah(totalPrice);
+        }
+
+        window.removeFromCart = function(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        };
+    </script>
+</body>
+</html>
